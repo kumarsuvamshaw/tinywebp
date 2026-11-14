@@ -1,0 +1,26 @@
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# ==========================================
+# TINYWEBP - CANONICAL URL REDIRECTS
+# Default: https://tinywebp.online
+# ==========================================
+
+# 1. Remove trailing slashes from page URLs
+# Example: /png-to-webp/ -> /png-to-webp
+# Keep the root URL (/) unchanged.
+
+RewriteCond %{REQUEST_URI} .+/$
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+?)/+$ https://tinywebp.online/$1 [R=301,L]
+
+# 2. Force HTTPS and remove www
+# Example: http://www.tinywebp.online/page
+#       -> https://tinywebp.online/page
+
+RewriteCond %{HTTPS} !=on [OR]
+RewriteCond %{HTTP_HOST} !^tinywebp\.online$ [NC]
+RewriteRule ^ https://tinywebp.online%{REQUEST_URI} [R=301,L]
+
+</IfModule>
